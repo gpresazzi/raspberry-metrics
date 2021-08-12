@@ -16,7 +16,7 @@ args = parser.parse_args()
 # Get environment variables
 access_key = os.getenv('AWS_ACCESS_KEY')
 secret_key = os.environ.get('AWS_SECRET_KEY')
-cli_path = args.path if args.path else '/usr/local/bin/'
+cli_path = args.p if hasattr(args, 'p') else '/usr/local/bin/'
 
 if args.single:
     print("Running single instance")
