@@ -10,11 +10,13 @@ from botocore.config import Config
 
 parser = argparse.ArgumentParser(description='Argument parse.')
 parser.add_argument('--single', action='store_true')
+parser.add_argument('-p', '-path', help='speedtest-cli path.')
 args = parser.parse_args()
 
 # Get environment variables
 access_key = os.getenv('AWS_ACCESS_KEY')
 secret_key = os.environ.get('AWS_SECRET_KEY')
+cli_path = args.path if args.path else '/usr/local/bin/'
 
 if args.single:
     print("Running single instance")
@@ -61,7 +63,7 @@ def publish_value(metric_name, value):
 
 
 while True:
-    response = subprocess.Popen('/usr/local/bin/speedtest-cli --simple', shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+    response = subprocess.Popen(cli_path + 'speedtest-cli --simple', shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
 
     ping = re.findall('Ping:\s(.*?)\s', response, re.MULTILINE)
     download = re.findall('Download:\s(.*?)\s', response, re.MULTILINE)
